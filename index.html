@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Emotional Assessment | arrobaverso</title>
+    <style>
+        :root {
+            --bg: #000; --card: #1C1C1E; --gold: #D4AF37;
+            --gold-glow: rgba(212, 175, 55, 0.4);
+            --radius: 22px; --max-w: 280px;
+        }
+        
+        body {
+            background: var(--bg); color: #fff; margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            display: flex; flex-direction: column; align-items: center; min-height: 100vh;
+            user-select: none; -webkit-user-select: none; overflow-x: hidden;
+        }
+
+        /* PANTALLA DE CARGA */
+        #loader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; z-index: 9999;
+            transition: opacity 0.8s ease;
+        }
+        .spinner {
+            width: 40px; height: 40px; border: 3px solid rgba(212, 175, 55, 0.1);
+            border-top: 3px solid var(--gold); border-radius: 50%;
+            animation: spin 1s linear infinite; margin-bottom: 20px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .logo-container { padding: 40px 0 20px; width: 120px; }
+        .logo-container img { width: 100%; border-radius: 12px; }
+        .instructions { color: #8E8E93; text-align: center; margin-bottom: 30px; padding: 0 25px; max-width: 500px; min-height: 3rem; }
+        .nav-back { align-self: flex-start; margin: 0 0 20px 5%; color: var(--gold); cursor: pointer; display: none; font-weight: bold; }
+
+        .grid-container {
+            display: grid; gap: 20px; width: 92%; max-width: 1000px; justify-content: center;
+            opacity: 0; transition: opacity 0.6s ease; padding-bottom: 50px;
+        }
+        .cols-2 { grid-template-columns: repeat(2, var(--max-w)); }
+        .cols-3 { grid-template-columns: repeat(3, var(--max-w)); }
+
+        @media (max-width: 600px) { 
+            .cols-2, .cols-3 { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            :root { --radius: 18px; }
+        }
+
+        .card { aspect-ratio: 1/1; perspective: 1200px; cursor: pointer; position: relative; }
+        .card-inner { 
+            width: 100%; height: 100%; transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1); 
+            transform-style: preserve-3d; position: relative; border-radius: var(--radius);
+        }
+
+        @media (hover: hover) {
+            .card:hover .card-inner {
+                box-shadow: 0 0 30px var(--gold-glow);
+                outline: 1.5px solid var(--gold);
+            }
+        }
+
+        .card.flipped .card-inner { transform: rotateY(180deg); }
+        
+        .card-front, .card-back {
+            position: absolute; width: 100%; height: 100%; 
+            backface-visibility: hidden; -webkit-backface-visibility: hidden;
+            border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.08); overflow: hidden;
+        }
+
+        .card-front img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+        
+        .card-back {
+            background: var(--card); transform: rotateY(180deg);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            padding: 15px; border: 2.5px solid var(--gold); box-sizing: border-box;
+        }
+
+        .num-grande { font-size: 2rem; font-weight: 800; color: var(--gold); margin-bottom: 12px; }
+        .btn-group { display: flex; flex-direction: column; gap: 8px; width: 100%; position: relative; z-index: 100; transform: translateZ(1px); }
+        .btn {
+            display: block; background: rgba(255,255,255,0.1); color: #fff !important; 
+            text-decoration: none !important; padding: 12px; border-radius: 12px; 
+            font-size: 0.75rem; font-weight: bold; text-align: center; 
+            border: 1px solid rgba(255,255,255,0.2); transition: 0.2s;
+            cursor: pointer !important; outline: none;
+        }
+        .btn-gold { background: var(--gold) !important; color: #000 !important; border: none; }
+        .btn:hover { background: #fff !important; color: #000 !important; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(255,255,255,0.2); }
+
+        .footer { margin-top: auto; padding: 40px 20px; text-align: center; color: #636366; font-size: 0.75rem; border-top: 1px solid #1c1c1c; width: 100%; }
+        .footer a { color: var(--gold); text-decoration: none; }
+    </style>
+	<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "088a3dd41ba141e3b37a9e5fdaa4776d"}'></script>
+	<meta name="p:domain_verify" content="68bdab7117b8b6084c552338c8104ccb"/>
+</head>
+<body oncontextmenu="return false;">
+
+    <div id="loader">
+        <div class="spinner"></div>
+        <div style="color:var(--gold); font-size: 0.8rem; letter-spacing: 2px;">ARROBAVERSO</div>
+    </div>
+
+    <header class="logo-container"><img src="img/home/logo.jpg" alt="Logo"></header>
+    <p id="instr" class="instructions"></p>
+    <nav id="btnBack" class="nav-back">← BACK TO HOME</nav>
+    <main id="appGrid" class="grid-container"></main>
+
+    <footer class="footer">
+        © Carlos Arroba | <a href="https://linktr.ee/arrobaverso" target="_blank" rel="noopener">arrobaverso</a>
+    </footer>
+
+    <script type="module">
+        import { listaEmociones } from './datos.js';
+
+        const DOM = {
+            grid: document.getElementById('appGrid'),
+            instr: document.getElementById('instr'),
+            btnBack: document.getElementById('btnBack'),
+            loader: document.getElementById('loader')
+        };
+
+        const shuffleArray = (array) => {
+            const newArr = [...array];
+            for (let i = newArr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
+            }
+            return newArr;
+        };
+
+        const cargarHome = () => {
+            DOM.btnBack.style.display = 'none';
+            DOM.instr.textContent = "Observe and feel the symbols, choose the one that resonates with you.";
+            DOM.grid.style.opacity = '0';
+            setTimeout(() => {
+                DOM.grid.innerHTML = '';
+                DOM.grid.className = 'grid-container cols-2';
+                shuffleArray([1, 2, 3, 4]).forEach(num => {
+                    const idHome = num.toString().padStart(2, '0');
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.innerHTML = `<div class="card-inner"><div class="card-front"><img src="img/home/${idHome}.jpg" loading="lazy"></div></div>`;
+                    card.onclick = () => cargarGrupo(num);
+                    DOM.grid.appendChild(card);
+                });
+                DOM.grid.style.opacity = '1';
+            }, 300);
+        };
+
+        const cargarGrupo = (numGrupo) => {
+            DOM.btnBack.style.display = 'block';
+            DOM.instr.textContent = "Discover which emotion wants to connect with you.";
+            DOM.grid.style.opacity = '0';
+            setTimeout(() => {
+                DOM.grid.innerHTML = '';
+                DOM.grid.className = 'grid-container cols-3';
+                let inicio, fin;
+                if(numGrupo === 1) { inicio = 0; fin = 8; }
+                else if(numGrupo === 2) { inicio = 8; fin = 17; }
+                else if(numGrupo === 3) { inicio = 17; fin = 26; }
+                else { inicio = 26; fin = 35; }
+
+                let items = [];
+                for (let i = inicio; i < fin; i++) {
+                    items.push({ ...listaEmociones[i], idImg: (i + 1).toString().padStart(3, '0') });
+                }
+
+                shuffleArray(items).forEach((emocion) => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.innerHTML = `
+                        <div class="card-inner">
+                            <div class="card-front"><img src="img/emociones/${emocion.idImg}.jpg" loading="lazy"></div>
+                            <div class="card-back">
+                                <div class="num-grande">${emocion.idImg}</div>
+                                <div class="btn-group">
+                                    <button onclick="event.stopPropagation(); window.open('${emocion.audio}', '_blank')" class="btn btn-gold">Emotion</button>
+                                    <button onclick="event.stopPropagation(); window.open('${emocion.podcast}', '_blank')" class="btn">Podcast</button>
+                                    <button onclick="event.stopPropagation(); window.open('${emocion.playlist}', '_blank')" class="btn">Playlist</button>
+                                </div>
+                            </div>
+                        </div>`;
+                    
+                    card.addEventListener('click', (e) => {
+                        if (e.target.closest('.btn') || e.target.closest('.btn-group')) {
+                            return;
+                        }
+                        card.classList.toggle('flipped');
+                    });
+                    DOM.grid.appendChild(card);
+                });
+                DOM.grid.style.opacity = '1';
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            }, 300);
+        };
+
+        DOM.btnBack.onclick = cargarHome;
+        
+        window.onload = () => {
+            cargarHome();
+            setTimeout(() => {
+                DOM.loader.style.opacity = '0';
+                setTimeout(() => DOM.loader.remove(), 800);
+            }, 1000);
+        };
+    </script>
+</body>
+</html>
