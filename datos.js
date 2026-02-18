@@ -8,10 +8,6 @@ export const listaEmociones = [
     { audio: "https://arrobaverso.bandcamp.com/track/006-humiliation", podcast: "https://open.spotify.com/episode/1DCkB3yjwb2qZYkBewW42E", playlist: "https://open.spotify.com/playlist/0QsAGEtK2gWQ62R7FN2UxV" },
     { audio: "https://arrobaverso.bandcamp.com/track/007-abandonment", podcast: "https://open.spotify.com/episode/3pFQe5QqMK8n4dIMDDSp37", playlist: "https://open.spotify.com/playlist/2KB0eCnh2Yit5pQxJamvfV" },
     { audio: "https://arrobaverso.bandcamp.com/track/008-abuse", podcast: "https://open.spotify.com/episode/2U504AUjxv7NzGV8ctnRCQ", playlist: "https://open.spotify.com/playlist/3O0QMGaL5ePTMQYV6X8e8u" },
-
-    // --- BLOQUES 2, 3 y 4 (9-35) ---
-    // He puesto tu raíz de Bandcamp en 'audio' para que no falle.
-    // He mantenido tus enlaces de Spotify para Podcast y Playlist.
     { audio: "https://arrobaverso.bandcamp.com", podcast: "https://open.spotify.com/episode/4UFH27Fr3v7Voz5tcXb0JR", playlist: "https://open.spotify.com/playlist/3Sxh1dB1WMxNbNuxR7njS2" },
     { audio: "https://arrobaverso.bandcamp.com", podcast: "https://open.spotify.com/episode/3qL8YT8IZ361fdcxTrdtVG", playlist: "https://open.spotify.com/playlist/5iroslppZo3uj4N8Si7DqO" },
     { audio: "https://arrobaverso.bandcamp.com", podcast: "https://open.spotify.com/episode/4ol1z3iNpmVBtPFhsng0iJ", playlist: "https://open.spotify.com/playlist/6qU21DIwJUksIkkniEf4Gw" },
@@ -40,3 +36,4 @@ export const listaEmociones = [
     { audio: "https://arrobaverso.bandcamp.com", podcast: "https://open.spotify.com/episode/4uDoe8LrAQTp24tiHoXEFg", playlist: "https://open.spotify.com/playlist/2qEuvmgA75GwycGO3HIUK0" },
     { audio: "https://arrobaverso.bandcamp.com", podcast: "https://open.spotify.com/episode/2q4AG29XsHYqZR69fuec8e", playlist: "https://open.spotify.com/playlist/1ic2R7cwlhxkAhpk7cJr8E" }
 ];
+
